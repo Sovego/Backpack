@@ -1,33 +1,63 @@
-
-// ReSharper disable All
 #include <iostream>
-#include <ctime>
-struct thinks
-{
-	int weight;
-	int price;
-	double coefficient;
-};
-void init_struct(thinks st[],const int count)
-{
-	for (int i=0;i<count;i++)
-	{
-		st[i].price=1+rand()% 100;
-		st[i].weight=1+rand()%9;
-		st[i].coefficient=st[i].weight/st[i].price;
-	}
+
+
+int max(int number1, int number2) {
+    if (number1 > number2) {
+        return number1;
+    } else return number2;
 }
 int main()
 {
-    srand((unsigned)time(NULL));
+    int count;
+    int max_weight;
     std::cout << "Input max weight ";
-	std::cout << "Input count of items";
-	int i;
-    std::cin >> i;
-   
-    thinks *st=new thinks[i];
-	init_struct(st,i);
-	
+    std::cin >> max_weight;
+    std::cout << "Input max count ";
+    std::cin >> count;
+    int** list=new int*[count+1];
+    int* cost_list= new int[count+1];
+    for (int i = 0; i < count+1; i++) list[i] = new int[max_weight+2];
+    for (int i=0;i<count+1;i++)
+    {
+        for (int j=0;j<max_weight+2;j++)
+        {
+            list[i][j]=0;
+        }
+    }
+    for (int i=2;i<max_weight+2;i++)
+    {
+        list[0][i]=i-1;
+    }
+    for (int i=1;i<count+1;i++)
+    {
+        int x;
+        std::cout << "Input " << i << " weight ";
+        std::cin >> x;
+        list[i][0]=x;
+        std::cout << "Input " << i << " cost ";
+        std::cin >> x;
+        cost_list[i]=x;
+    }
+    for (int i=2;i<count+1;i++)
+    {
+        for (int j=2;j<max_weight+2;j++)
+        {
+            if (j<list[i][0])
+            {
+                list[i][j]=list[i-1][j];
+            } else if(j>=list[i][0])
+            {
+                list[i][j]=max(list[i-1][j],list[i-1][j-i]+cost_list[j]);
+            }
+        }
+
+    }
+    for (int i=0;i<count+1;i++)
+    {
+        for (int j=0;j<max_weight+2;j++)
+        {
+            std::cout <<list[i][j] << '\t';
+        }
+        std::cout << std::endl;
+    }
 }
-
-
