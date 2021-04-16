@@ -14,8 +14,8 @@ int main()
     std::cout << "Input max count ";
     std::cin >> count;
     int** list=new int*[count+2];
-    int* cost_list= new int[count+2];
-    int* weight_list= new int[count+2];
+    int* cost_list= new int[count+1];
+    int* weight_list= new int[count+1];
     for (int i = 0; i < count+2; i++) list[i] = new int[max_weight+2];
     for (int i=0;i<count+2;i++)
     {
@@ -61,19 +61,18 @@ int main()
         }
         std::cout << std::endl;
     }
-    int i{count+2};
-    int j{max_weight+2};
-    while (i>0 or j>0)
+    int i{count+1};
+    int j{max_weight+1};
+    std::cout << "Комбинация ";
+    while (i-1>0 and j>0)
     {
         if(list[i-1][j]==list[i][j])
         {
             i--;
-        } else
-        {
-            j=j-weight_list[i];
-        } if(i!=0)
-        {
-
+            continue;
         }
+            std::cout << i-1 << " ";
+            j-=weight_list[i];
+            i--;
     }
 }
